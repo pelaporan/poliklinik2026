@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Poliklinik</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
     body {
@@ -40,6 +39,7 @@
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full bg-slate-50">
   <div id="app" class="h-full w-full overflow-auto"><!-- Header -->
@@ -470,42 +470,16 @@
       await refreshData();
     }
 
-    // Initialize SDK
-    window.elementSdk.init({
-      defaultConfig,
-      onConfigChange,
-      mapToCapabilities: (cfg) => ({
-        recolorables: [
-          {
-            get: () => cfg.primary_color || defaultConfig.primary_color,
-            set: (value) => {
-              cfg.primary_color = value;
-              window.elementSdk.setConfig({ primary_color: value });
-            }
-          },
-          {
-            get: () => cfg.text_color || defaultConfig.text_color,
-            set: (value) => {
-              cfg.text_color = value;
-              window.elementSdk.setConfig({ text_color: value });
-            }
-          }
-        ],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      }),
-      mapToEditPanelValues: (cfg) => new Map([
-        ['clinic_name', cfg.clinic_name || defaultConfig.clinic_name],
-        ['api_url', cfg.api_url || defaultConfig.api_url]
-      ])
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      await refreshData();
+      
+      // Setup refresh button
+      document.getElementById('refresh-btn').addEventListener('click', refreshData);
+      
+      // Setup search
+      setupSearch();
     });
-
-    // Setup refresh button
-    document.getElementById('refresh-btn').addEventListener('click', refreshData);
-
-    // Setup search
-    setupSearch();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4f039f4172c6b2',t:'MTc2OTU4NzgzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4f1343b3aa8e9d',t:'MTc2OTU4ODQ3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
